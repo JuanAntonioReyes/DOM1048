@@ -1,5 +1,7 @@
 var gridSize = 4;
 var grid = [];
+var tileSize = 50;
+var tileSpacing = 10;
 
 //$(document).keydown(moveSquareKey);
 
@@ -29,9 +31,17 @@ function makeGrid(size) {
 }
 
 function placeNewTile(tileValue) {
-	var tilePosition = getRandomValidPosition();
+	var tile, tilePosition = getRandomValidPosition();
 
 	grid[tilePosition[0]][tilePosition[1]] = tileValue;
+
+	tile = $('<div class="numberTile">' + tileValue + '</div>');
+	$('.numberTiles').append(tile);
+
+	var tileX = ( ( tilePosition[1] * (tileSize + tileSpacing) ) + tileSpacing );
+	var tileY = ( ( tilePosition[0] * (tileSize + tileSpacing) ) + tileSpacing );
+
+	tile.offset({ top: tileX, left: tileY });
 }
 
 //(Math.random() < 0.5) ? tileValue = 2 : tileValue = 4;
@@ -52,8 +62,6 @@ function getRandomValidPosition() {
 
 	return [randomRow, randomCol];
 }
-
-//$('.blueSquare').offset({ top: 10, left: 10 });
 
 /*function moveSquareKey(e) {
 	var pressedKey = e.which;
