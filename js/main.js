@@ -1,19 +1,61 @@
 var gridSize = 4;
+var grid = [];
 
-$(document).keydown(moveSquareKey);
+//$(document).keydown(moveSquareKey);
 
-var gridDivs = "";
-for (var i = 0; i < gridSize; i++) {
-	for (var j = 0; j < gridSize; j++) {
-		gridDivs += '<div class="graySquare"></div>';
-	}
-	gridDivs += '<br>';
+function startGame() {
+	makeGrid(gridSize);
+
+	placeNewTile(2);
+	placeNewTile(2);
 }
-$('.squaresGrid').append(gridDivs);
+
+function makeGrid(size) {
+	var gridDivs = "", gridRow;
+
+	for (var i = 0; i < size; i++) {
+		gridRow = [];
+
+		for (var j = 0; j < size; j++) {
+			gridDivs += '<div class="gridTile"></div>';
+			gridRow.push(0);
+		}
+
+		gridDivs += '<br>';
+		grid.push(gridRow);
+	}
+
+	$('.grid').append(gridDivs);
+}
+
+function placeNewTile(tileValue) {
+	var tilePosition = getRandomValidPosition();
+
+	grid[tilePosition[0]][tilePosition[1]] = tileValue;
+}
+
+//(Math.random() < 0.5) ? tileValue = 2 : tileValue = 4;
+
+function getRandomValidPosition() {
+	var randomRow, randomColumn, isValid = false;
+
+	while (!isValid) {
+		randomRow = Math.floor(Math.random() * gridSize);
+		randomCol = Math.floor(Math.random() * gridSize);
+
+		//console.log(randomRow + " - " + randomCol);
+
+		if (grid[randomRow][randomCol] === 0) {
+			isValid = true;
+		}
+	}
+
+	return [randomRow, randomCol];
+}
 
 //$('.blueSquare').offset({ top: 10, left: 10 });
 
-function moveSquareKey(e) {
+/*function moveSquareKey(e) {
 	var pressedKey = e.which;
 	var speed = 150;
 	var distance = 60;
@@ -35,3 +77,4 @@ function moveSquareKey(e) {
 
 	console.log($('.blueSquare').position());
 }
+*/
