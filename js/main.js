@@ -44,8 +44,6 @@ function placeNewTile(tileValue) {
 	tile.offset({ top: tileX, left: tileY });
 }
 
-//(Math.random() < 0.5) ? tileValue = 2 : tileValue = 4;
-
 function getRandomValidPosition() {
 	var randomRow, randomColumn, isValid = false;
 
@@ -61,6 +59,12 @@ function getRandomValidPosition() {
 	}
 
 	return [randomRow, randomCol];
+}
+
+function placeRandomTile() {
+	var tileValue = (Math.random() < 0.5) ? tileValue = 2 : tileValue = 4;
+
+	placeNewTile(tileValue);
 }
 
 /*function moveSquareKey(e) {
