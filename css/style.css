@@ -1,0 +1,25 @@
+.blueSquare {
+	background-color: blue;
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 100;
+}
+
+.squaresGrid {
+	font-size: 0;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.graySquare {
+	background-color: gray;
+	width: 50px;
+	height: 50px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	display: inline-block;
+}
