@@ -46,7 +46,7 @@ function placeNewTile(tileValue) {
 	var tileX = ( ( tilePosition[1] * (tileSize + tileSpacing) ) + tileSpacing );
 	var tileY = ( ( tilePosition[0] * (tileSize + tileSpacing) ) + tileSpacing );
 
-	tile.offset({ top: tileX, left: tileY });
+	tile.offset({ top: tileY, left: tileX });
 }
 
 function getRandomValidPosition() {
@@ -62,6 +62,8 @@ function getRandomValidPosition() {
 			isValid = true;
 		}
 	}
+
+	console.log("Row: " + randomRow + " - " + "Column: " + randomCol);
 
 	return [randomRow, randomCol];
 }
@@ -112,15 +114,41 @@ function moveTiles(e) {
 
 function checkTiles(direction) {
 
+	console.log(direction);
+
 	if (direction === "LEFT") {
 		for (var i = 1; i < gridSize; i++) {
 			for (var j = 0; j < gridSize; j++) {
-				console.log($('.gridTile' + j + '-' + i));
-				$('.gridTile' + j + '-' + i).animate({opacity: 0.25}, 500);
+				//console.log($('.gridTile' + j + '-' + i));
+				console.log(j + '-' + i);
+				if (grid[j][i] != 0) {
+					console.log("a");
+				}
 			}
 		}
+	} else if (direction === "UP") {
+		for (var i = 1; i < gridSize; i++) {
+			for (var j = 0; j < gridSize; j++) {
+				//console.log($('.gridTile' + i + '-' + j));
+				console.log(i + '-' + j);
+			}
+		} 
+	} else if (direction === "RIGHT") {
+		for (var i = (gridSize-2); i >= 0; i--) {
+			for (var j = 0; j < gridSize; j++) {
+				//console.log($('.gridTile' + j + '-' + i));
+				console.log(j + '-' + i);
+			}
+		} 
+	} else if (direction === "DOWN") {
+		for (var i = (gridSize - 2); i >= 0; i--) {
+			for (var j = 0; j < gridSize; j++) {
+				//console.log($('.gridTile' + i + '-' + j));
+				console.log(i + '-' + j);
+			}
+		} 
 	}
-	
+
 }
 
 
