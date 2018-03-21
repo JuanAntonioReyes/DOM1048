@@ -3,7 +3,12 @@ var grid = [];
 var tileSize = 50;
 var tileSpacing = 10;
 
-//$(document).keydown(moveSquareKey);
+$(document).keydown(moveTiles);
+
+startGame();
+
+
+
 
 function startGame() {
 	makeGrid(gridSize);
@@ -19,7 +24,7 @@ function makeGrid(size) {
 		gridRow = [];
 
 		for (var j = 0; j < size; j++) {
-			gridDivs += '<div class="gridTile"></div>';
+			gridDivs += '<div class="gridTile gridTile' + i + '-' + j + '"></div>';
 			gridRow.push(0);
 		}
 
@@ -67,26 +72,56 @@ function placeRandomTile() {
 	placeNewTile(tileValue);
 }
 
-/*function moveSquareKey(e) {
+function moveTiles(e) {
 	var pressedKey = e.which;
-	var speed = 150;
 	var distance = 60;
+	var speed = 150;
 
-	switch (pressedKey) {
-		case 37: $('.blueSquare').animate({left: "-="+distance}, speed);
+/*	switch (pressedKey) {
+		case 37: $('.numberTile').animate({left: "-="+distance}, speed);
 						 console.log("LEFT");
 						break;
-		case 38: $('.blueSquare').animate({top: "-="+distance}, speed);
+		case 38: $('.numberTile').animate({top: "-="+distance}, speed);
 						 console.log("UP");
 						break;
-		case 39: $('.blueSquare').animate({left: "+="+distance}, speed);
+		case 39: $('.numberTile').animate({left: "+="+distance}, speed);
 						 console.log("RIGHT");
 						break;
-		case 40: $('.blueSquare').animate({top: "+="+distance}, speed);
+		case 40: $('.numberTile').animate({top: "+="+distance}, speed);
+						 console.log("DOWN");
+						break;
+	}*/
+
+	switch (pressedKey) {
+		case 37: checkTiles("LEFT");
+						 console.log("LEFT");
+						break;
+		case 38: checkTiles("UP");
+						 console.log("UP");
+						break;
+		case 39: checkTiles("RIGHT");
+						 console.log("RIGHT");
+						break;
+		case 40: checkTiles("DOWN");
 						 console.log("DOWN");
 						break;
 	}
 
-	console.log($('.blueSquare').position());
+	console.log($('.numberTile').position());
 }
-*/
+
+function checkTiles(direction) {
+
+	if (direction === "LEFT") {
+		for (var i = 1; i < gridSize; i++) {
+			for (var j = 0; j < gridSize; j++) {
+				console.log($('.gridTile' + j + '-' + i));
+				$('.gridTile' + j + '-' + i).animate({opacity: 0.25}, 500);
+			}
+		}
+	}
+	
+}
+
+
+
