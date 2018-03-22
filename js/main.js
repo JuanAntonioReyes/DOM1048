@@ -154,7 +154,7 @@ function checkTiles(direction) {
 				//console.log($('.gridTile' + i + '-' + j));
 				//console.log(i + '-' + j);
 				if (grid[i][j] != 0) {
-					console.log("a");
+					console.log("");
 				}
 			}
 		} 
@@ -164,7 +164,24 @@ function checkTiles(direction) {
 				//console.log($('.gridTile' + j + '-' + i));
 				//console.log(j + '-' + i);
 				if (grid[j][i] != 0) {
-					console.log("a");
+					numberTile = $('.numberTile' + [j] + '-' + [i]);
+
+					console.log("------");
+					console.log("NUMBER TILE != 0");
+					console.log(numberTile);
+					console.log("------");
+
+					var destination = findDestination('RIGHT', [j,i], grid[j][i]);
+					console.log(destination);
+
+					grid[destination[0]][destination[1]] = grid[j][i];
+					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+					grid[j][i] = 0;
+					numberTile.removeClass('numberTile' + [j] + '-' + [i]);
+
+					distance = ((destination[1] - i) * 60);
+
+					numberTile.animate({left: "+="+distance}, speed);
 				}
 			}
 		} 
@@ -221,6 +238,38 @@ function findDestination(direction, tilePosition, tileValue) {
 
 		if (numberTileFound || column < 0) {
 			column++;
+		}
+
+	} else if (direction === 'RIGHT') {
+		column++;
+		
+		console.log("- Destination finder is moving to the RIGHT");
+		console.log("  Starting the search at column " + column);
+
+		while (column < gridSize && !numberTileFound) {
+
+			if (grid[row][column] != 0){
+
+				console.log("-- The destination finder has found another number tile");
+				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
+
+				numberTileFound = true;
+				//foundedNumberTileValue = grid[column][row];
+			} else {
+				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
+			
+				column++;
+			}
+		}
+
+		/* ------- */
+		if (column >= gridSize) {
+			console.log("------ The destination finder has reached the grid limit");
+		}
+		/* ------- */
+
+		if (numberTileFound || column >= gridSize) {
+			column--;
 		}
 
 	}
