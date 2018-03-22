@@ -5,16 +5,15 @@ var tileSpacing = 10;
 
 $(document).keydown(moveTiles);
 
-startGame();
-
-
-
+startGame(); // -----------------------------------------------
 
 function startGame() {
 	makeGrid(gridSize);
 
 	placeNewTile(2);
 	placeNewTile(2);
+	//placeNewTile(2, [1,0]);
+	//placeNewTile(2, [1,3]);
 }
 
 function makeGrid(size) {
@@ -37,7 +36,9 @@ function makeGrid(size) {
 }
 
 function placeNewTile(tileValue) {
-	var tile, tilePosition = getRandomValidPosition();
+//function placeNewTile(tileValue, tilePosition) {
+	var tile;
+	var tilePosition = getRandomValidPosition();
 
 	grid[tilePosition[0]][tilePosition[1]] = tileValue;
 
@@ -198,20 +199,18 @@ function findDestination(direction, tilePosition, tileValue) {
 
 		while (column >= 0 && !numberTileFound) {
 
-			if (grid[column][row] != 0){
+			if (grid[row][column] != 0){
 
 				console.log("-- The destination finder has found another number tile");
 				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
 
 				numberTileFound = true;
 				//foundedNumberTileValue = grid[column][row];
-			}
-			/* ------------- */
-			else {
+			} else {
 				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
+			
+				column--;
 			}
-			/* ------------- */
-			column--;
 		}
 
 		/* ------- */
