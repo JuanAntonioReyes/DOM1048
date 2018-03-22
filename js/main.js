@@ -258,6 +258,7 @@ function findDestination(direction, tilePosition, tileValue) {
 
 	var changingPosition, fixedPosition;
 	var changingFactor;
+	var limitReached = false;
 
 	if (direction === 'LEFT' || direction === 'RIGHT') {
 		changingPosition = tilePosition[1]; // Column
@@ -273,166 +274,61 @@ function findDestination(direction, tilePosition, tileValue) {
 		changingFactor = 1;
 	}
 
-
 	changingPosition += changingFactor;
-		
-	var limitReached = false;
 
-	//while (column >= 0 && !numberTileFound) {
-	while (limitReached && !numberTileFound) {
+	console.log("- Destination finder is moving to " + direction);
+	if (direction === 'LEFT' || direction === 'RIGHT') {
+		console.log("  Starting the search at column " + changingPosition);
+	} else if (direction === 'UP' || direction === 'DOWN') {
+		console.log("  Starting the search at row " + changingPosition);
+	}
+	
 
-		if (grid[row][column] != 0){
+	var gridPositionValue;
+
+	while (!limitReached && !numberTileFound) {
+
+		if (direction === 'LEFT' || direction === 'RIGHT') {
+			gridPositionValue = grid[fixedPosition][changingPosition];
+		} else if (direction === 'UP' || direction === 'DOWN') {
+			gridPositionValue = grid[changingPosition][fixedPosition];
+		}
+
+		if (direction === 'LEFT' || direction === 'RIGHT') {
+			row = fixedPosition;
+			column = changingPosition;
+		} else if (direction === 'UP' || direction === 'DOWN') {
+			row = changingPosition;
+			column = fixedPosition;
+		}
+
+		if (gridPositionValue != 0){
+			numberTileFound = true;
 
 			console.log("-- The destination finder has found another number tile");
 			console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
 
-			numberTileFound = true;
-			//foundedNumberTileValue = grid[column][row];
 		} else {
+			console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
+
 			changingPosition += changingFactor;
 		}
 
-		if (((direction = 'LEFT' || direction = 'UP') && changingFactor < 0) ||
-				((direction = 'RIGHT' || direction = 'DOWN') && changingFactor > gridSize)) {
+		if (((direction === 'LEFT' || direction === 'UP') && changingPosition < 0) ||
+				((direction === 'RIGHT' || direction === 'DOWN') && changingPosition >= gridSize)) {
 
 			limitReached = true;
-		
+
+		}
+
+		if (limitReached) {
+			console.log("------ The destination finder has reached the grid limit");
 		}
 	}
 
 	if (numberTileFound || limitReached) {
 		changingPosition -= changingFactor;
 	}
-
-
-
-
-	if (direction === 'LEFT') {
-		column--;
-		
-		console.log("- Destination finder is moving to the LEFT");
-		console.log("  Starting the search at column " + column);
-
-		while (column >= 0 && !numberTileFound) {
-
-			if (grid[row][column] != 0){
-
-				console.log("-- The destination finder has found another number tile");
-				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
-
-				numberTileFound = true;
-				//foundedNumberTileValue = grid[column][row];
-			} else {
-				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
-			
-				column--;
-			}
-		}
-
-		if (column < 0) {
-			console.log("------ The destination finder has reached the grid limit");
-		}
-
-		if (numberTileFound || column < 0) {
-			column++;
-		}
-
-	} else if (direction === 'UP') {
-		row--;
-		
-		console.log("- Destination finder is moving to the TOP");
-		console.log("  Starting the search at row " + row);
-
-		while (row >= 0 && !numberTileFound) {
-
-			if (grid[row][column] != 0){
-
-				console.log("-- The destination finder has found another number tile");
-				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
-
-				numberTileFound = true;
-				//foundedNumberTileValue = grid[column][row];
-			} else {
-				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
-			
-				row--;
-			}
-		}
-
-
-		if (column < 0) {
-			console.log("------ The destination finder has reached the grid limit");
-		}
-
-
-		if (numberTileFound || row < 0) {
-			row++;
-		}
-
-	} else if (direction === 'RIGHT') {
-		column++;
-		
-		console.log("- Destination finder is moving to the RIGHT");
-		console.log("  Starting the search at column " + column);
-
-		while (column < gridSize && !numberTileFound) {
-
-			if (grid[row][column] != 0){
-
-				console.log("-- The destination finder has found another number tile");
-				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
-
-				numberTileFound = true;
-				//foundedNumberTileValue = grid[column][row];
-			} else {
-				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
-			
-				column++;
-			}
-		}
-
-
-		if (column >= gridSize) {
-			console.log("------ The destination finder has reached the grid limit");
-		}
-
-		if (numberTileFound || column >= gridSize) {
-			column--;
-		}
-
-	} else if (direction === 'DOWN') {
-		row++;
-		
-		console.log("- Destination finder is moving to the BOTTOM");
-		console.log("  Starting the search at row " + row);
-
-		while (row < gridSize && !numberTileFound) {
-
-			if (grid[row][column] != 0){
-
-				console.log("-- The destination finder has found another number tile");
-				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
-
-				numberTileFound = true;
-				//foundedNumberTileValue = grid[column][row];
-			} else {
-				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
-			
-				row++;
-			}
-		}
-
-		if (column >= gridSize) {
-			console.log("------ The destination finder has reached the grid limit");
-		}
-
-
-		if (numberTileFound || row >= gridSize) {
-			row--;
-		}
-
-	}
-
 
 // ---------------------------------------------------
 
@@ -565,6 +461,11 @@ function findDestination(direction, tilePosition, tileValue) {
 	//console.log("THE TILE DESTINATION IS: " + row + " - " + column);
 	//console.log("------");
 
-	return [row, column];
+	//return [row, column];
+	if (direction === 'LEFT' || direction === 'RIGHT') {
+		return [fixedPosition, changingPosition];
+	} else if (direction === 'UP' || direction === 'DOWN') {
+		return [changingPosition, fixedPosition];
+	}
 }
 
