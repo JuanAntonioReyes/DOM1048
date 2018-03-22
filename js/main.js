@@ -40,7 +40,7 @@ function placeNewTile(tileValue) {
 
 	grid[tilePosition[0]][tilePosition[1]] = tileValue;
 
-	tile = $('<div class="numberTile">' + tileValue + '</div>');
+	tile = $('<div class="numberTile numberTile' + tilePosition[0] + '-' + tilePosition[1] + '">' + tileValue + '</div>');
 	$('.numberTiles').append(tile);
 
 	var tileX = ( ( tilePosition[1] * (tileSize + tileSpacing) ) + tileSpacing );
@@ -63,7 +63,7 @@ function getRandomValidPosition() {
 		}
 	}
 
-	console.log("Row: " + randomRow + " - " + "Column: " + randomCol);
+	//console.log("Row: " + randomRow + " - " + "Column: " + randomCol);
 
 	return [randomRow, randomCol];
 }
@@ -109,20 +109,35 @@ function moveTiles(e) {
 						break;
 	}
 
-	console.log($('.numberTile').position());
+	//console.log($('.numberTile').position());
 }
 
 function checkTiles(direction) {
 
-	console.log(direction);
+	//console.log(direction);
+	var numberTile;
+	var distance;
+	var speed = 150;
 
 	if (direction === "LEFT") {
-		for (var i = 1; i < gridSize; i++) {
-			for (var j = 0; j < gridSize; j++) {
+		for (var i = 1; i < gridSize; i++) { // ROW
+			for (var j = 0; j < gridSize; j++) { // COLUMN
 				//console.log($('.gridTile' + j + '-' + i));
-				console.log(j + '-' + i);
+				//console.log(j + '-' + i);
 				if (grid[j][i] != 0) {
-					console.log("a");
+					numberTile = $('.numberTile' + [j] + '-' + [i]);
+
+					var destination = findDestination('LEFT', [j,i], grid[j][i]);
+					console.log(destination);
+
+					grid[destination[0]][destination[1]] = grid[j][i];
+					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+					grid[j][i] = 0;
+					numberTile.removeClass('numberTile' + [j] + '-' + [i]);
+
+					distance = ((i - destination[1]) * 60);
+
+					numberTile.animate({left: "-="+distance}, speed);
 				}
 			}
 		}
@@ -130,26 +145,59 @@ function checkTiles(direction) {
 		for (var i = 1; i < gridSize; i++) {
 			for (var j = 0; j < gridSize; j++) {
 				//console.log($('.gridTile' + i + '-' + j));
-				console.log(i + '-' + j);
+				//console.log(i + '-' + j);
+				if (grid[i][j] != 0) {
+					console.log("a");
+				}
 			}
 		} 
 	} else if (direction === "RIGHT") {
 		for (var i = (gridSize-2); i >= 0; i--) {
 			for (var j = 0; j < gridSize; j++) {
 				//console.log($('.gridTile' + j + '-' + i));
-				console.log(j + '-' + i);
+				//console.log(j + '-' + i);
+				if (grid[j][i] != 0) {
+					console.log("a");
+				}
 			}
 		} 
 	} else if (direction === "DOWN") {
 		for (var i = (gridSize - 2); i >= 0; i--) {
 			for (var j = 0; j < gridSize; j++) {
 				//console.log($('.gridTile' + i + '-' + j));
-				console.log(i + '-' + j);
+				//console.log(i + '-' + j);
+				if (grid[i][j] != 0) {
+					console.log("a");
+				}
 			}
 		} 
 	}
 
 }
 
+function findDestination(direction, tilePosition, tileValue) {
+	var column = tilePosition[1];
+	var row = tilePosition[0];
+	var numberTileFound = false;
+	//var foundedNumberTileValue;
 
+	if (direction === 'LEFT') {
+		column--;
+		
+		while (column >= 0 && !numberTileFound) {
+			if (grid[column][row] != 0){
+				numberTileFound = true;
+				//foundedNumberTileValue = grid[column][row];
+			}
+			column--;
+		}
+
+		if (numberTileFound || column < 0) {
+			column++;
+		}
+
+	}
+
+	return [row, column];
+}
 
