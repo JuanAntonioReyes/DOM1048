@@ -11,7 +11,7 @@ function startGame() {
 	makeGrid(gridSize);
 
 	placeNewTile(2);
-	placeNewTile(2);
+	//placeNewTile(2);
 	//placeNewTile(2, [1,0]);
 	//placeNewTile(2, [1,3]);
 }
@@ -143,6 +143,9 @@ function checkTiles(direction) {
 					numberTile.removeClass('numberTile' + [j] + '-' + [i]);
 
 					distance = ((i - destination[1]) * 60);
+					console.log("The tile was in Row: " + i + " - Col: " + j);
+					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+					console.log("The movement distance is: " + distance);
 
 					numberTile.animate({left: "-="+distance}, speed);
 				}
@@ -154,7 +157,27 @@ function checkTiles(direction) {
 				//console.log($('.gridTile' + i + '-' + j));
 				//console.log(i + '-' + j);
 				if (grid[i][j] != 0) {
-					console.log("");
+					numberTile = $('.numberTile' + [i] + '-' + [j]);
+
+					console.log("------");
+					console.log("NUMBER TILE != 0");
+					console.log(numberTile);
+					console.log("------");
+
+					var destination = findDestination('UP', [i,j], grid[i][j]);
+					console.log(destination);
+
+					grid[destination[0]][destination[1]] = grid[i][j];
+					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+					grid[i][j] = 0;
+					numberTile.removeClass('numberTile' + [i] + '-' + [j]);
+
+					distance = ((i - destination[0]) * 60);
+					console.log("The tile was in Row: " + i + " - Col: " + j);
+					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+					console.log("The movement distance is: " + distance);
+
+					numberTile.animate({top: "-="+distance}, speed);
 				}
 			}
 		} 
@@ -180,6 +203,9 @@ function checkTiles(direction) {
 					numberTile.removeClass('numberTile' + [j] + '-' + [i]);
 
 					distance = ((destination[1] - i) * 60);
+					console.log("The tile was in Row: " + i + " - Col: " + j);
+					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+					console.log("The movement distance is: " + distance);
 
 					numberTile.animate({left: "+="+distance}, speed);
 				}
@@ -238,6 +264,38 @@ function findDestination(direction, tilePosition, tileValue) {
 
 		if (numberTileFound || column < 0) {
 			column++;
+		}
+
+	} else if (direction === 'UP') {
+		row--;
+		
+		console.log("- Destination finder is moving to the TOP");
+		console.log("  Starting the search at row " + row);
+
+		while (row >= 0 && !numberTileFound) {
+
+			if (grid[row][column] != 0){
+
+				console.log("-- The destination finder has found another number tile");
+				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
+
+				numberTileFound = true;
+				//foundedNumberTileValue = grid[column][row];
+			} else {
+				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
+			
+				row--;
+			}
+		}
+
+		/* ------- */
+		if (column < 0) {
+			console.log("------ The destination finder has reached the grid limit");
+		}
+		/* ------- */
+
+		if (numberTileFound || row < 0) {
+			row++;
 		}
 
 	} else if (direction === 'RIGHT') {
