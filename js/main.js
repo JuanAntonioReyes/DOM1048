@@ -24,7 +24,8 @@ function makeGrid(size) {
 		gridRow = [];
 
 		for (var j = 0; j < size; j++) {
-			gridDivs += '<div class="gridTile gridTile' + i + '-' + j + '"></div>';
+			//gridDivs += '<div class="gridTile gridTile' + i + '-' + j + '"></div>';
+			gridDivs += '<div class="gridTile"></div>';
 			gridRow.push(0);
 		}
 
@@ -127,6 +128,11 @@ function checkTiles(direction) {
 				if (grid[j][i] != 0) {
 					numberTile = $('.numberTile' + [j] + '-' + [i]);
 
+					console.log("------");
+					console.log("NUMBER TILE != 0");
+					console.log(numberTile);
+					console.log("------");
+
 					var destination = findDestination('LEFT', [j,i], grid[j][i]);
 					console.log(destination);
 
@@ -181,22 +187,47 @@ function findDestination(direction, tilePosition, tileValue) {
 	var numberTileFound = false;
 	//var foundedNumberTileValue;
 
+	console.log("------");
+	console.log("FINDING DESTINATION FOR NUMBER TILE " + row + " - " + column);
+
 	if (direction === 'LEFT') {
 		column--;
 		
+		console.log("- Destination finder is moving to the LEFT");
+		console.log("  Starting the search at column " + column);
+
 		while (column >= 0 && !numberTileFound) {
+
 			if (grid[column][row] != 0){
+
+				console.log("-- The destination finder has found another number tile");
+				console.log("   at " + row + " - " + column + " | With value: " + grid[column][row]);
+
 				numberTileFound = true;
 				//foundedNumberTileValue = grid[column][row];
 			}
+			/* ------------- */
+			else {
+				console.log("-- The position " + row + " - " + column + " is empty (0) - The finder will continue searching");
+			}
+			/* ------------- */
 			column--;
 		}
+
+		/* ------- */
+		if (column < 0) {
+			console.log("------ The destination finder has reached the grid limit");
+		}
+		/* ------- */
 
 		if (numberTileFound || column < 0) {
 			column++;
 		}
 
 	}
+
+	console.log("THE TILE DESTINATION IS: " + row + " - " + column);
+	console.log("------");
 
 	return [row, column];
 }
