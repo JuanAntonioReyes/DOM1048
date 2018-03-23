@@ -105,28 +105,31 @@ function placeRandomTile() {
 }
 
 function moveTiles(e) {
-	var pressedKey = e.which;
-	var distance = 60;
-	var speed = 150;
+	if (checkGridFull()) {
+		console.log("GAME OVER - The grid is full");
+	} else {
+		var pressedKey = e.which;
+		var distance = 60;
+		var speed = 150;
 
-	switch (pressedKey) {
-		case 37: checkTiles("LEFT");
-						 console.log("LEFT");
-						break;
-		case 38: checkTiles("UP");
-						 console.log("UP");
-						break;
-		case 39: checkTiles("RIGHT");
-						 console.log("RIGHT");
-						break;
-		case 40: checkTiles("DOWN");
-						 console.log("DOWN");
-						break;
+		switch (pressedKey) {
+			case 37: checkTiles("LEFT");
+							 console.log("LEFT");
+							break;
+			case 38: checkTiles("UP");
+							 console.log("UP");
+							break;
+			case 39: checkTiles("RIGHT");
+							 console.log("RIGHT");
+							break;
+			case 40: checkTiles("DOWN");
+							 console.log("DOWN");
+							break;
+		}
 	}
 }
 
 function checkTiles(direction) {
-
 	//console.log(direction);
 	var numberTile;
 	var distance;
