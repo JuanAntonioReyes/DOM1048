@@ -56,6 +56,8 @@ function placeNewTile(tileValue) {
 	tile = $('<div class="numberTile numberTile' + tilePosition[0] + '-' + tilePosition[1] + '">' + tileValue + '</div>');
 	$('.numberTiles').append(tile);
 
+	//tile.css("background-color", "#123456");
+
 	console.log("The new tile is positioned in: " + tilePosition[0] + " - " + tilePosition[1]);
 	console.log("Grid " + tilePosition[0] + " - " + tilePosition[1] + ": " + grid[tilePosition[0]][tilePosition[1]]);
 
@@ -283,14 +285,14 @@ function checkTiles(direction) {
 
 	setTimeout(function(){
     placeRandomTile();
-	}, 1000);
+	}, speed);
 
 	//placeRandomTile();
 	
 	setTimeout(function(){
     console.log("Grid after inserting new tile");
 		printGrid();
-	}, 1000);
+	}, speed);
 
 }
 
