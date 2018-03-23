@@ -84,7 +84,7 @@ function getRandomValidPosition() {
 	return [randomRow, randomCol];
 }
 
-fucntion checkGridFull() {
+function checkGridFull() {
 	var isGridFull = true;
 
 	for (var i = 0; i < gridSize; i++) {
