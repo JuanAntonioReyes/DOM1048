@@ -133,7 +133,7 @@ function moveTiles(e) {
 
 function checkTiles(direction) {
 	//console.log(direction);
-	var numberTile;
+	var numberTile, fusionNumberTile;
 	var distance;
 	var speed = 500;
 
@@ -154,7 +154,18 @@ function checkTiles(direction) {
 					console.log(destination);
 
 					if (destination[2]) {
-						grid[destination[0]][destination[1]] = grid[j][i];
+
+						if (destination[3]) { // MOVE AND FUSE
+
+							grid[destination[0]][destination[1]] = (grid[j][i] * 2);
+							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
+
+						} else { // ONLY MOVE
+
+							grid[destination[0]][destination[1]] = grid[j][i];
+
+						}
+
 						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
 						grid[j][i] = 0;
 						numberTile.removeClass('numberTile' + [j] + '-' + [i]);
@@ -165,6 +176,11 @@ function checkTiles(direction) {
 						console.log("The movement distance is: " + distance);
 
 						numberTile.animate({left: "-="+distance}, speed);
+
+						if (destination[3]) {
+							fusionNumberTile.remove();
+						}
+
 					} else {
 						console.log("The tile was in Row: " + i + " - Col: " + j);
 						console.log("It doesn't need to move anywhere");
@@ -190,7 +206,18 @@ function checkTiles(direction) {
 					console.log(destination);
 
 					if (destination[2]) {
-						grid[destination[0]][destination[1]] = grid[i][j];
+
+						if (destination[3]) { // MOVE AND FUSE
+
+							grid[destination[0]][destination[1]] = (grid[i][j] * 2);
+							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
+
+						} else { // ONLY MOVE
+
+							grid[destination[0]][destination[1]] = grid[i][j];
+
+						}
+
 						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
 						grid[i][j] = 0;
 						numberTile.removeClass('numberTile' + [i] + '-' + [j]);
@@ -201,6 +228,11 @@ function checkTiles(direction) {
 						console.log("The movement distance is: " + distance);
 
 						numberTile.animate({top: "-="+distance}, speed);
+
+						if (destination[3]) {
+							fusionNumberTile.remove();
+						}
+
 					} else {
 						console.log("The tile was in Row: " + i + " - Col: " + j);
 						console.log("It doesn't need to move anywhere");
@@ -225,7 +257,18 @@ function checkTiles(direction) {
 					console.log(destination);
 
 					if (destination[2]) {
-						grid[destination[0]][destination[1]] = grid[j][i];
+
+						if (destination[3]) { // MOVE AND FUSE
+
+							grid[destination[0]][destination[1]] = (grid[j][i] * 2);
+							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
+
+						} else { // ONLY MOVE
+
+							grid[destination[0]][destination[1]] = grid[j][i];
+
+						}
+
 						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
 						grid[j][i] = 0;
 						numberTile.removeClass('numberTile' + [j] + '-' + [i]);
@@ -235,7 +278,12 @@ function checkTiles(direction) {
 						console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
 						console.log("The movement distance is: " + distance);
 
-						numberTile.animate({left: "+="+distance}, speed);		
+						numberTile.animate({left: "+="+distance}, speed);
+
+						if (destination[3]) {
+							fusionNumberTile.remove();
+						}
+
 					} else {
 						console.log("The tile was in Row: " + i + " - Col: " + j);
 						console.log("It doesn't need to move anywhere");
@@ -260,7 +308,18 @@ function checkTiles(direction) {
 					console.log(destination);
 
 					if (destination[2]) {
-						grid[destination[0]][destination[1]] = grid[i][j];
+
+						if (destination[3]) { // MOVE AND FUSE
+
+							grid[destination[0]][destination[1]] = (grid[i][j] * 2);
+							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
+
+						} else { // ONLY MOVE
+
+							grid[destination[0]][destination[1]] = grid[i][j];
+
+						}
+
 						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
 						grid[i][j] = 0;
 						numberTile.removeClass('numberTile' + [i] + '-' + [j]);
@@ -271,6 +330,11 @@ function checkTiles(direction) {
 						console.log("The movement distance is: " + distance);
 
 						numberTile.animate({top: "+="+distance}, speed);
+
+						if (destination[3]) {
+							fusionNumberTile.remove();
+						}
+
 					} else {
 						console.log("The tile was in Row: " + i + " - Col: " + j);
 						console.log("It doesn't need to move anywhere");
@@ -303,6 +367,7 @@ function findDestination(direction, tilePosition, tileValue) {
 	var changingFactor;
 	var limitReached = false;
 	var tileCanMove = false;
+	var tileFusion = false;
 
 	if (direction === 'LEFT' || direction === 'RIGHT') {
 		changingPosition = tilePosition[1]; // Column
@@ -350,6 +415,14 @@ function findDestination(direction, tilePosition, tileValue) {
 
 			console.log("-- The destination finder has found another number tile");
 			console.log("   at " + row + " - " + column + " | With value: " + gridPositionValue);
+		
+			if (gridPositionValue === tileValue) {
+				tileCanMove = true;
+				tileFusion = true;
+
+				console.log("-- The tile at " + tilePosition[0] + " - " + tilePosition[1] + " will fuse with the tile at " + row + " - " + column + " with value: " + gridPositionValue);
+			}
+
 		} else {
 			console.log("-- The position " + row + " - " + column + " is empty (" + gridPositionValue + ") - The finder will continue searching");
 
@@ -374,9 +447,9 @@ function findDestination(direction, tilePosition, tileValue) {
 	}
 
 	if (direction === 'LEFT' || direction === 'RIGHT') {
-		return [fixedPosition, changingPosition, tileCanMove];
+		return [fixedPosition, changingPosition, tileCanMove, tileFusion];
 	} else if (direction === 'UP' || direction === 'DOWN') {
-		return [changingPosition, fixedPosition, tileCanMove];
+		return [changingPosition, fixedPosition, tileCanMove, tileFusion];
 	}
 }
 
