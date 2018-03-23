@@ -67,7 +67,7 @@ function placeNewTile(tileValue) {
 
 function getRandomValidPosition() {
 	var randomRow, randomColumn, isValid = false;
-
+	
 	while (!isValid) {
 		randomRow = Math.floor(Math.random() * gridSize);
 		randomCol = Math.floor(Math.random() * gridSize);
@@ -82,6 +82,20 @@ function getRandomValidPosition() {
 	//console.log("Row: " + randomRow + " - " + "Column: " + randomCol);
 
 	return [randomRow, randomCol];
+}
+
+fucntion checkGridFull() {
+	var isGridFull = true;
+
+	for (var i = 0; i < gridSize; i++) {
+		for (var j = 0; j < gridSize; j++) {
+			if (grid[i][j] === 0) {
+				isGridFull = false;
+			}
+		}
+	}
+
+	return isGridFull;
 }
 
 function placeRandomTile() {
@@ -134,17 +148,23 @@ function checkTiles(direction) {
 					var destination = findDestination('LEFT', [j,i], grid[j][i]);
 					console.log(destination);
 
-					grid[destination[0]][destination[1]] = grid[j][i];
-					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
-					grid[j][i] = 0;
-					numberTile.removeClass('numberTile' + [j] + '-' + [i]);
+					if (destination[2]) {
+						grid[destination[0]][destination[1]] = grid[j][i];
+						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+						grid[j][i] = 0;
+						numberTile.removeClass('numberTile' + [j] + '-' + [i]);
 
-					distance = ((i - destination[1]) * 60);
-					console.log("The tile was in Row: " + i + " - Col: " + j);
-					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
-					console.log("The movement distance is: " + distance);
+						distance = ((i - destination[1]) * 60);
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+						console.log("The movement distance is: " + distance);
 
-					numberTile.animate({left: "-="+distance}, speed);
+						numberTile.animate({left: "-="+distance}, speed);
+					} else {
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("It doesn't need to move anywhere");
+					}
+					
 				}
 			}
 		}
@@ -164,17 +184,22 @@ function checkTiles(direction) {
 					var destination = findDestination('UP', [i,j], grid[i][j]);
 					console.log(destination);
 
-					grid[destination[0]][destination[1]] = grid[i][j];
-					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
-					grid[i][j] = 0;
-					numberTile.removeClass('numberTile' + [i] + '-' + [j]);
+					if (destination[2]) {
+						grid[destination[0]][destination[1]] = grid[i][j];
+						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+						grid[i][j] = 0;
+						numberTile.removeClass('numberTile' + [i] + '-' + [j]);
 
-					distance = ((i - destination[0]) * 60);
-					console.log("The tile was in Row: " + i + " - Col: " + j);
-					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
-					console.log("The movement distance is: " + distance);
+						distance = ((i - destination[0]) * 60);
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+						console.log("The movement distance is: " + distance);
 
-					numberTile.animate({top: "-="+distance}, speed);
+						numberTile.animate({top: "-="+distance}, speed);
+					} else {
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("It doesn't need to move anywhere");
+					}
 				}
 			}
 		} 
@@ -194,17 +219,22 @@ function checkTiles(direction) {
 					var destination = findDestination('RIGHT', [j,i], grid[j][i]);
 					console.log(destination);
 
-					grid[destination[0]][destination[1]] = grid[j][i];
-					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
-					grid[j][i] = 0;
-					numberTile.removeClass('numberTile' + [j] + '-' + [i]);
+					if (destination[2]) {
+						grid[destination[0]][destination[1]] = grid[j][i];
+						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+						grid[j][i] = 0;
+						numberTile.removeClass('numberTile' + [j] + '-' + [i]);
 
-					distance = ((destination[1] - i) * 60);
-					console.log("The tile was in Row: " + i + " - Col: " + j);
-					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
-					console.log("The movement distance is: " + distance);
+						distance = ((destination[1] - i) * 60);
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+						console.log("The movement distance is: " + distance);
 
-					numberTile.animate({left: "+="+distance}, speed);
+						numberTile.animate({left: "+="+distance}, speed);		
+					} else {
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("It doesn't need to move anywhere");
+					}
 				}
 			}
 		} 
@@ -224,17 +254,22 @@ function checkTiles(direction) {
 					var destination = findDestination('DOWN', [i,j], grid[i][j]);
 					console.log(destination);
 
-					grid[destination[0]][destination[1]] = grid[i][j];
-					numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
-					grid[i][j] = 0;
-					numberTile.removeClass('numberTile' + [i] + '-' + [j]);
+					if (destination[2]) {
+						grid[destination[0]][destination[1]] = grid[i][j];
+						numberTile.addClass('numberTile' + destination[0] + '-' + destination[1]);
+						grid[i][j] = 0;
+						numberTile.removeClass('numberTile' + [i] + '-' + [j]);
 
-					distance = ((destination[0] - i) * 60);
-					console.log("The tile was in Row: " + i + " - Col: " + j);
-					console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
-					console.log("The movement distance is: " + distance);
+						distance = ((destination[0] - i) * 60);
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("The tile needs to move to Row: " + destination[0] + " - Col: " + destination[1]);
+						console.log("The movement distance is: " + distance);
 
-					numberTile.animate({top: "+="+distance}, speed);
+						numberTile.animate({top: "+="+distance}, speed);
+					} else {
+						console.log("The tile was in Row: " + i + " - Col: " + j);
+						console.log("It doesn't need to move anywhere");
+					}
 				}
 			}
 		} 
@@ -262,6 +297,7 @@ function findDestination(direction, tilePosition, tileValue) {
 	var changingPosition, fixedPosition;
 	var changingFactor;
 	var limitReached = false;
+	var tileCanMove = false;
 
 	if (direction === 'LEFT' || direction === 'RIGHT') {
 		changingPosition = tilePosition[1]; // Column
@@ -312,6 +348,8 @@ function findDestination(direction, tilePosition, tileValue) {
 		} else {
 			console.log("-- The position " + row + " - " + column + " is empty (" + gridPositionValue + ") - The finder will continue searching");
 
+			tileCanMove = true;
+
 			changingPosition += changingFactor;
 		}
 
@@ -331,9 +369,9 @@ function findDestination(direction, tilePosition, tileValue) {
 	}
 
 	if (direction === 'LEFT' || direction === 'RIGHT') {
-		return [fixedPosition, changingPosition];
+		return [fixedPosition, changingPosition, tileCanMove];
 	} else if (direction === 'UP' || direction === 'DOWN') {
-		return [changingPosition, fixedPosition];
+		return [changingPosition, fixedPosition, tileCanMove];
 	}
 }
 
