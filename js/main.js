@@ -157,10 +157,16 @@ function checkTiles(direction) {
 
 						if (destination[3]) { // MOVE AND FUSE
 
+							console.log("The destination tile value will be: " + (grid[j][i] * 2));
+
 							grid[destination[0]][destination[1]] = (grid[j][i] * 2);
 							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
 
+							numberTile.text(grid[j][i] * 2);
+
 						} else { // ONLY MOVE
+
+							console.log("The destination tile value will be: " + grid[j][i]);
 
 							grid[destination[0]][destination[1]] = grid[j][i];
 
@@ -209,10 +215,16 @@ function checkTiles(direction) {
 
 						if (destination[3]) { // MOVE AND FUSE
 
+							console.log("The destination tile value will be: " + (grid[j][i] * 2));
+
 							grid[destination[0]][destination[1]] = (grid[i][j] * 2);
 							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
 
+							numberTile.text(grid[i][j] * 2);
+
 						} else { // ONLY MOVE
+
+							console.log("The destination tile value will be: " + grid[j][i]);
 
 							grid[destination[0]][destination[1]] = grid[i][j];
 
@@ -260,10 +272,16 @@ function checkTiles(direction) {
 
 						if (destination[3]) { // MOVE AND FUSE
 
+							console.log("The destination tile value will be: " + (grid[j][i] * 2));
+
 							grid[destination[0]][destination[1]] = (grid[j][i] * 2);
 							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
 
+							numberTile.text(grid[j][i] * 2);
+							
 						} else { // ONLY MOVE
+
+							console.log("The destination tile value will be: " + grid[j][i]);
 
 							grid[destination[0]][destination[1]] = grid[j][i];
 
@@ -311,10 +329,16 @@ function checkTiles(direction) {
 
 						if (destination[3]) { // MOVE AND FUSE
 
+							console.log("The destination tile value will be: " + (grid[j][i] * 2));
+
 							grid[destination[0]][destination[1]] = (grid[i][j] * 2);
 							fusionNumberTile = $('.numberTile' + [destination[0]] + '-' + [destination[1]]);
 
+							numberTile.text(grid[i][j] * 2);
+							
 						} else { // ONLY MOVE
+
+							console.log("The destination tile value will be: " + grid[j][i]);
 
 							grid[destination[0]][destination[1]] = grid[i][j];
 
@@ -420,7 +444,7 @@ function findDestination(direction, tilePosition, tileValue) {
 				tileCanMove = true;
 				tileFusion = true;
 
-				console.log("-- The tile at " + tilePosition[0] + " - " + tilePosition[1] + " will fuse with the tile at " + row + " - " + column + " with value: " + gridPositionValue);
+				console.log("-- The tile at " + tilePosition[0] + " - " + tilePosition[1] + "(" + tileValue + ") will fuse with the tile at " + row + " - " + column + " (" + gridPositionValue + ")");
 			}
 
 		} else {
@@ -442,7 +466,7 @@ function findDestination(direction, tilePosition, tileValue) {
 		}
 	}
 
-	if (numberTileFound || limitReached) {
+	if ((numberTileFound && !tileFusion) || limitReached) {
 		changingPosition -= changingFactor;
 	}
 
