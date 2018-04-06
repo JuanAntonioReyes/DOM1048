@@ -51,42 +51,53 @@ function placeNewTile(tileValue) {
 	var tile;
 	var tilePosition = getRandomValidPosition();
 
-	grid[tilePosition[0]][tilePosition[1]] = tileValue;
+	if (tilePosition[0] === -1) {
+		console.log("The grid is full and the tiles cannot move or fuse in that direction");
+	} else {
+		grid[tilePosition[0]][tilePosition[1]] = tileValue;
 
-	tile = $('<div class="numberTile numberTile' + tilePosition[0] + '-' + tilePosition[1] + '">' + tileValue + '</div>');
-	$('.numberTiles').append(tile);
+		tile = $('<div class="numberTile numberTile' + tilePosition[0] + '-' + tilePosition[1] + '">' + tileValue + '</div>');
+		$('.numberTiles').append(tile);
 
-	//tile.css("background-color", "#123456");
+		//tile.css("background-color", "#123456");
 
-	console.log("The new tile is positioned in: " + tilePosition[0] + " - " + tilePosition[1]);
-	console.log("Grid " + tilePosition[0] + " - " + tilePosition[1] + ": " + grid[tilePosition[0]][tilePosition[1]]);
+		console.log("The new tile is positioned in: " + tilePosition[0] + " - " + tilePosition[1]);
+		console.log("Grid " + tilePosition[0] + " - " + tilePosition[1] + ": " + grid[tilePosition[0]][tilePosition[1]]);
 
-	var tileX = ( ( tilePosition[1] * (tileSize + tileSpacing) ) + tileSpacing );
-	var tileY = ( ( tilePosition[0] * (tileSize + tileSpacing) ) + tileSpacing );
+		var tileX = ( ( tilePosition[1] * (tileSize + tileSpacing) ) + tileSpacing );
+		var tileY = ( ( tilePosition[0] * (tileSize + tileSpacing) ) + tileSpacing );
 
-	tile.offset({ top: tileY, left: tileX });
+		tile.offset({ top: tileY, left: tileX });
+	}
+
 }
 
 function getRandomValidPosition() {
-	var randomRow, randomColumn, isValid = false;
-	
-	while (!isValid) {
-		randomRow = Math.floor(Math.random() * gridSize);
-		randomCol = Math.floor(Math.random() * gridSize);
+	var randomRow, randomCol, isValid = false;
 
-		//console.log(randomRow + " - " + randomCol);
+	if (checkGridFull()) {
+		randomRow = -1;
+		randomCol = -1;
+	} else {
+		while (!isValid) {
+			randomRow = Math.floor(Math.random() * gridSize);
+			randomCol = Math.floor(Math.random() * gridSize);
 
-		if (grid[randomRow][randomCol] === 0) {
-			isValid = true;
+			//console.log(randomRow + " - " + randomCol);
+
+			if (grid[randomRow][randomCol] === 0) {
+				isValid = true;
+			}
+
 		}
 	}
-
+	
 	//console.log("Row: " + randomRow + " - " + "Column: " + randomCol);
 
 	return [randomRow, randomCol];
 }
 
-function checkGridFull() {
+function checkGridFull() { // TEMPORAL
 	var isGridFull = true;
 
 	for (var i = 0; i < gridSize; i++) {
@@ -107,9 +118,9 @@ function placeRandomTile() {
 }
 
 function moveTiles(e) {
-	if (checkGridFull()) {
+/*	if (checkGridFull()) {
 		console.log("GAME OVER - The grid is full");
-	} else {
+	} else {*/
 		var pressedKey = e.which;
 		var distance = 60;
 		var speed = 150;
@@ -128,7 +139,7 @@ function moveTiles(e) {
 							 console.log("DOWN");
 							break;
 		}
-	}
+	//}
 }
 
 function checkTiles(direction) {
