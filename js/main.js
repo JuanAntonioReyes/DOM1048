@@ -156,6 +156,31 @@ function checkTiles(direction) {
 				if (grid[j][i] != 0) {
 					numberTile = $('.numberTile' + [j] + '-' + [i]);
 
+// ---------------------------------------------------------------------------------
+					console.log("----------------------------COLOR CHANGE TEST");
+					// CHECK HOW TO ADD HEX NUMBERS TO UPGRADE COLOR
+
+					var hexDigits = new Array
+					        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+
+					//Function to convert rgb color to hex format
+					function rgb2hex(rgb) {
+					 rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+					 //return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+					 return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+					}
+
+					function hex(x) {
+					  return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+					}
+
+					var color = numberTile.css("background-color");
+					var colorHex = rgb2hex(color);
+					console.log(color);
+					//console.log(colorHex);
+					console.log("#" + colorHex);
+// ---------------------------------------------------------------------------------
+
 					console.log("------");
 					console.log("NUMBER TILE != 0");
 					console.log(numberTile);
