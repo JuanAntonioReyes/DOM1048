@@ -158,8 +158,7 @@ function checkTiles(direction) {
 
 // ---------------------------------------------------------------------------------
 					console.log("----------------------------COLOR CHANGE TEST");
-					// CHECK HOW TO ADD HEX NUMBERS TO UPGRADE COLOR
-
+					
 					var hexDigits = new Array
 					        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
 
@@ -174,11 +173,22 @@ function checkTiles(direction) {
 					  return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
 					}
 
+					function addHexColor(c1, c2) {
+					  var hexStr = (parseInt(c1, 16) + parseInt(c2, 16)).toString(16);
+					  while (hexStr.length < 6) { hexStr = '0' + hexStr; } // Zero pad.
+					  return hexStr;
+					}
+
 					var color = numberTile.css("background-color");
 					var colorHex = rgb2hex(color);
+					var colorHexAdd = addHexColor(colorHex, '000001')
 					console.log(color);
 					//console.log(colorHex);
-					console.log("#" + colorHex);
+					console.log('#' + colorHex);
+					console.log('#' + colorHexAdd);
+
+					//numberTile.css("background-color", '#' + colorHexAdd);
+
 // ---------------------------------------------------------------------------------
 
 					console.log("------");
