@@ -181,7 +181,7 @@ function checkTiles(direction) {
 
 					var color = numberTile.css("background-color");
 					var colorHex = rgb2hex(color);
-					var colorHexAdd = addHexColor(colorHex, '000001')
+					var colorHexAdd = addHexColor(colorHex, '009000')
 					console.log(color);
 					//console.log(colorHex);
 					console.log('#' + colorHex);
